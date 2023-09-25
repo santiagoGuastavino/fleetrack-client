@@ -1,7 +1,68 @@
-@import '_constants.scss';
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import './_constants.scss';
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+body,
+html {
+  color: #fff;
+  font-family: "Inter", sans-serif;
+  background-color: $c-black1;
+  overflow: hidden;
+}
+
+body {
+  position: relative;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+label, button, p {
+  font-size: 18px;
+}
+
+input {
+  font-size: 14px;
+}
+
+span {
+  font-size: 12px;
+}
+
+nav {
+  height: 5vh;
+}
+
+section {
+  height: 88vh;
+
+  &.isLoading {
+    opacity: 0.2;
+  }
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
 }

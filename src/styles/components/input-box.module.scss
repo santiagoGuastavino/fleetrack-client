@@ -1,0 +1,66 @@
+@import '../constants.scss';
+
+.inputBox {
+  display: flex;
+  flex-flow: row wrap;
+  position: relative;
+  width: 100%;
+
+  .inputLabel {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .input {
+    width: 100%;
+    margin: 0 auto;
+    padding: 10px 2px;
+    margin-bottom: 20px;
+    outline: none;
+    border: 2px solid $c-black12;
+    transition: $transition;
+
+    &:focus {
+      border: 1px solid $c-black12;
+      outline: none;
+      border: 2px solid #fff;
+    }
+
+    &.inputError {
+      border: $c-red 2px solid;
+      background-color: $c-red;
+
+      &:focus {
+        border: #fff 2px solid;
+      }
+    }
+
+    &.disabled {
+      pointer-events: none;
+      background-color: $c-black12;
+    }
+  }
+
+  .errorMessage {
+    color: $c-red;
+    position: absolute;
+    bottom: 6px;
+    left: 5%;
+  }
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
+}
