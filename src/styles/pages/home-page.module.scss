@@ -5,7 +5,35 @@
   align-items: center;
   width: 60%;
   margin: auto;
-  padding-top: 20px;
+}
+
+.outerDiv {
+  position: absolute;
+  left: 50%;
+  top: 28%;
+
+  .innerDiv {
+    position: relative;
+    left: -50%;
+    top: -28%;
+    border-top: 1px solid #fff;
+
+    p {
+      text-align: center;
+      font-size: 14px;
+      margin: 6px 0;
+
+      &.first {
+        font-size: 18px;
+        margin: 10px 0;
+      }
+
+      &.last {
+        font-size: 12px;
+        margin: 5px 0;
+      }
+    }
+  }
 }
 
 @media (min-width: 576px) {

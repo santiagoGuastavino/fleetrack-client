@@ -12,8 +12,11 @@ import { IAuthPayload, IResponse } from '@/interfaces/response.interface';
 import { RequestStatus } from '@/enums/request-status.enum';
 import Loading from '@/components/Loading';
 import ErrorBox from '@/components/ErrorBox';
+import useWake from '@/hooks/use-wake';
+import Title from '@/components/Title';
 
 export default function HomePage(): JSX.Element {
+  const { isWakeLoading } = useWake();
   const [canSubmit, setCanSubmit] = useState<boolean>(false);
   const [requestStatus, setRequestStatus] = useState<RequestStatus>(
     RequestStatus.IDLE,
@@ -74,7 +77,21 @@ export default function HomePage(): JSX.Element {
     }
   };
 
-  return (
+  return isWakeLoading ? (
+    <>
+      <Navbar />
+      <Loading />
+      <section>
+        <div className={styles.outerDiv}>
+          <div className={styles.innerDiv}>
+            <p className={styles.first}>Please wait</p>
+            <p>waking up the server</p>
+            <p className={styles.last}> (it&apos;s a free tier deploy)</p>
+          </div>
+        </div>
+      </section>
+    </>
+  ) : (
     <>
       <Navbar />
       {requestStatus === RequestStatus.LOADING ? <Loading /> : undefined}
@@ -83,6 +100,7 @@ export default function HomePage(): JSX.Element {
           requestStatus === RequestStatus.LOADING ? 'isLoading' : undefined
         }`}
       >
+        <Title label="login / signup" />
         <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
           <InputBox
             bindings={{
