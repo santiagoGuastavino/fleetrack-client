@@ -1,5 +1,5 @@
 import styles from '@/styles/pages/home-page.module.scss';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AxiosError, AxiosResponse } from 'axios';
 import Navbar from '@/components/Navbar';
@@ -14,10 +14,11 @@ import Loading from '@/components/Loading';
 import ErrorBox from '@/components/ErrorBox';
 import useWake from '@/hooks/use-wake';
 import Title from '@/components/Title';
+import useAuthValidation from '@/hooks/use-auth-validation';
 
 export default function HomePage(): JSX.Element {
   const { isWakeLoading } = useWake();
-  const [canSubmit, setCanSubmit] = useState<boolean>(false);
+
   const [requestStatus, setRequestStatus] = useState<RequestStatus>(
     RequestStatus.IDLE,
   );
@@ -40,25 +41,12 @@ export default function HomePage(): JSX.Element {
   const emailValue = watch('email');
   const passwordValue = watch('password');
 
-  useEffect(() => {
-    if (emailValue && passwordValue) {
-      setCanSubmit(true);
-    } else {
-      setCanSubmit(false);
-    }
-  }, [emailValue, passwordValue]);
-
-  useEffect(() => {
-    if (response && response.statusCode > 300) {
-      setCanSubmit(false);
-    }
-  }, [response]);
-
-  useEffect(() => {
-    if (listenUserInteraction) {
-      setCanSubmit(true);
-    }
-  }, [listenUserInteraction]);
+  const { canSubmit } = useAuthValidation({
+    emailValue,
+    passwordValue,
+    response,
+    listenUserInteraction,
+  });
 
   const onSubmit = async (data: AuthSchema): Promise<void> => {
     setRequestStatus(RequestStatus.LOADING);
