@@ -39,6 +39,7 @@ export default function InputBox({
         className={`${styles.input} ${error ? styles.inputError : undefined} ${
           disabled ? styles.disabled : undefined
         }`}
+        disabled={disabled}
         type={type}
         autoCapitalize="none"
         {...(register && { ...register(name) })}

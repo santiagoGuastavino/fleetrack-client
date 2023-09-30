@@ -1,3 +1,5 @@
+@import '../_constants.scss';
+
 .form {
   display: flex;
   flex-flow: column wrap;
@@ -5,6 +7,7 @@
   align-items: center;
   width: 60%;
   margin: auto;
+  position: relative;
 }
 
 .outerDiv {
@@ -22,17 +25,37 @@
       text-align: center;
       font-size: 14px;
       margin: 6px 0;
+      position: relative;
 
       &.first {
         font-size: 18px;
         margin: 10px 0;
+        width: 100%;
       }
 
       &.last {
         font-size: 12px;
         margin: 5px 0;
       }
+
+      .typed {
+        font-size: 18px;
+        height: 20px;
+        position: absolute;
+      }
     }
+  }
+}
+
+.resetPassword {
+  width: 60%;
+  margin: 20px auto 0 auto;
+
+  p {
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 16px;
+    color: $c-black12;
   }
 }
 

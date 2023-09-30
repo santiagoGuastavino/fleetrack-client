@@ -1,32 +1,32 @@
 import styles from '@/styles/pages/home-page.module.scss';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { AxiosError, AxiosResponse } from 'axios';
 import Navbar from '@/components/Navbar';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { AuthSchema, authSchema } from '@/schemas/auth.schema';
 import InputBox from '@/components/InputBox';
 import Button from '@/components/Button';
-import { http } from '@/config/axios';
-import { IAuthPayload, IResponse } from '@/interfaces/response.interface';
 import { RequestStatus } from '@/enums/request-status.enum';
 import Loading from '@/components/Loading';
 import ErrorBox from '@/components/ErrorBox';
 import useWake from '@/hooks/use-wake';
 import Title from '@/components/Title';
-import useAuthValidation from '@/hooks/use-auth-validation';
+import useAuth from '@/hooks/use-auth';
+import { useEffect, useState } from 'react';
+import { NextRouter, useRouter } from 'next/router';
+import Typed from 'react-typed';
 
 export default function HomePage(): JSX.Element {
   const { isWakeLoading } = useWake();
 
+  const [requestData, setRequestData] = useState<AuthSchema>();
+  const [listenUserInteraction, setListenUserInteraction] =
+    useState<boolean>(false);
   const [requestStatus, setRequestStatus] = useState<RequestStatus>(
     RequestStatus.IDLE,
   );
-  const [response, setResponse] = useState<
-    IResponse<IAuthPayload> | undefined
-  >();
-  const [listenUserInteraction, setListenUserInteraction] =
-    useState<boolean>(false);
+  const [showPasswordHelper, setShowPasswordHelper] = useState<boolean>(false);
+
+  const router: NextRouter = useRouter();
 
   const {
     register,
@@ -41,29 +41,26 @@ export default function HomePage(): JSX.Element {
   const emailValue = watch('email');
   const passwordValue = watch('password');
 
-  const { canSubmit } = useAuthValidation({
+  const { canSubmit, response } = useAuth({
     emailValue,
     passwordValue,
-    response,
+    requestData,
     listenUserInteraction,
+    setRequestStatus,
+    setShowPasswordHelper,
   });
 
   const onSubmit = async (data: AuthSchema): Promise<void> => {
     setRequestStatus(RequestStatus.LOADING);
-
-    try {
-      const response: AxiosResponse<IResponse<IAuthPayload>> = await http.post(
-        `${process.env.NEXT_PUBLIC_DEFAULT_URL}/auth/login`,
-        data,
-      );
-      console.log(response);
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        setRequestStatus(RequestStatus.ERROR);
-        setResponse(error?.response?.data);
-      }
-    }
+    setShowPasswordHelper(false);
+    setRequestData(data);
   };
+
+  useEffect(() => {
+    if (requestStatus === RequestStatus.DONE) {
+      router.push('/second-page');
+    }
+  }, [requestStatus]);
 
   return isWakeLoading ? (
     <>
@@ -72,7 +69,16 @@ export default function HomePage(): JSX.Element {
       <section>
         <div className={styles.outerDiv}>
           <div className={styles.innerDiv}>
-            <p className={styles.first}>Please wait</p>
+            <p className={styles.first}>
+              Please wait
+              <Typed
+                className={styles.typed}
+                strings={['.', '..', '...', '....']}
+                typeSpeed={50}
+                showCursor={false}
+                loop
+              />
+            </p>
             <p>waking up the server</p>
             <p className={styles.last}> (it&apos;s a free tier deploy)</p>
           </div>
@@ -124,9 +130,16 @@ export default function HomePage(): JSX.Element {
             type="submit"
           />
         </form>
-        {requestStatus === RequestStatus.ERROR && response?.errors.length && (
-          <ErrorBox message={response.message} errors={response.errors} />
-        )}
+        <>
+          {requestStatus === RequestStatus.ERROR && response?.errors.length && (
+            <ErrorBox errors={response.errors} />
+          )}
+          {showPasswordHelper && (
+            <div className={styles.resetPassword}>
+              <p>Reset password</p>
+            </div>
+          )}
+        </>
       </section>
     </>
   );

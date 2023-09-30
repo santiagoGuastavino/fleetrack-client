@@ -2,18 +2,19 @@ import styles from '@/styles/components/error-box.module.scss';
 import { IError } from '@/interfaces/response.interface';
 
 interface Props {
-  message: string;
   errors: IError[];
 }
 
-export default function ErrorBox({ message, errors }: Props): JSX.Element {
+export default function ErrorBox({ errors }: Props): JSX.Element {
+  const errorMessage: string = Object.values(errors[0].constraints)[0];
+  const errorMessages: string[] = errorMessage.split(/(?<=\.) /);
+
   return (
     <div className={styles.div}>
-      <p className={styles.header}>{message}</p>
-      {errors &&
-        errors.length &&
-        errors.map((error: IError, index: number) => (
-          <p key={index}>{Object.values(error.constraints)}</p>
+      {errorMessages &&
+        errorMessages.length &&
+        errorMessages.map((error: string, index: number) => (
+          <p key={index}>{error}</p>
         ))}
     </div>
   );
