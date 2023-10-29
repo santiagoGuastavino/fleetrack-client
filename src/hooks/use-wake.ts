@@ -7,13 +7,9 @@ interface ReturnType {
 }
 
 export default function useWake(): ReturnType {
-  const { error, isLoading: isWakeLoading } = useSWR<
-    AxiosResponse<IResponse<object>>
-  >(`${process.env.NEXT_PUBLIC_DEFAULT_URL}`);
-
-  if (error) {
-    // handle error later
-  }
+  const { isLoading: isWakeLoading } = useSWR<AxiosResponse<IResponse<object>>>(
+    `${process.env.NEXT_PUBLIC_DEFAULT_URL}`,
+  );
 
   return { isWakeLoading };
 }

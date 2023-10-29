@@ -1,0 +1,39 @@
+@import '../_constants.scss';
+
+.form {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: auto;
+  position: relative;
+}
+
+.resetPassword {
+  width: 60%;
+  margin: 20px auto 0 auto;
+
+  p {
+    width: fit-content;
+    margin: 0 auto;
+    font-size: 16px;
+    color: $c-black12;
+  }
+}
+
+@media (min-width: 576px) {
+
+}
+
+@media (min-width: 768px) {
+
+}
+
+@media (min-width: 992px) {
+
+}
+
+@media (min-width: 1200px) {
+
+}

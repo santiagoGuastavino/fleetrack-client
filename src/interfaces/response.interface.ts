@@ -1,13 +1,13 @@
 export interface IResponse<T> {
   statusCode: number;
   message: string;
-  payload?: T;
+  payload: T;
   errors: IError[] | [];
 }
 
 export interface IError {
-  entity?: string;
-  property?: string;
+  entity: string;
+  property: string;
   children: string[];
   constraints: object;
 }

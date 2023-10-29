@@ -1,6 +1,4 @@
 import styles from '@/styles/components/input-box.module.scss';
-import { UseFormRegister } from 'react-hook-form';
-import { AuthSchema } from '@/schemas/auth.schema';
 import { ChangeEvent, InputHTMLAttributes } from 'react';
 
 interface InputBindings {
@@ -15,7 +13,6 @@ interface Props {
   errorMessage?: string;
   type: 'text' | 'password';
   disabled?: boolean;
-  register: UseFormRegister<AuthSchema>;
   bindings?: InputBindings;
 }
 
@@ -27,7 +24,6 @@ export default function InputBox({
   errorMessage,
   type,
   disabled,
-  register,
 }: Props): JSX.Element {
   return (
     <div className={styles.inputBox}>
@@ -42,7 +38,7 @@ export default function InputBox({
         disabled={disabled}
         type={type}
         autoCapitalize="none"
-        {...(register && { ...register(name) })}
+        name={name}
       />
       {errorMessage && (
         <span className={styles.errorMessage}>{errorMessage}</span>
