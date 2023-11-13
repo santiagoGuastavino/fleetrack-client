@@ -30,7 +30,7 @@ export default function AuthPage(): JSX.Element {
   const router: NextRouter = useRouter();
   const { setJwtAccessToken, setJwtRefreshToken } = useAuthActions();
 
-  const onSubmit = async (data: AuthSchema): Promise<void> => {
+  const handleSubmit = async (): Promise<void> => {
     setRequestStatus(RequestStatus.LOADING);
     setShowPasswordHelper(false);
     setRequestData(data);
@@ -135,11 +135,10 @@ export default function AuthPage(): JSX.Element {
         }`}
       >
         <Title label="login / signup" />
-        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <form className={styles.form} onSubmit={handleSubmit}>
           <InputBox
             label="email"
             name="email"
-            register={register}
             error={errors?.email !== undefined}
             errorMessage={errors?.email?.message}
             type="text"
@@ -148,7 +147,6 @@ export default function AuthPage(): JSX.Element {
           <InputBox
             label="password"
             name="password"
-            register={register}
             error={errors?.password !== undefined}
             errorMessage={errors?.password?.message}
             type="password"
